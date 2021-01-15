@@ -5,13 +5,16 @@
  */
 
 require('./bootstrap');
+import 'es6-promise/auto'
 import VueRouter from 'vue-router';
 import Vuetify from 'vuetify';
+import Vuex from 'vuex';
 import routes from './routes';
+import store from './store';
 window.Vue = require('vue');
 Vue.use(VueRouter);
 Vue.use(Vuetify);
-
+Vue.use(Vuex);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -23,7 +26,7 @@ Vue.use(Vuetify);
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('welcome-component', require('./components/Welcome.vue').default);
+Vue.component('main-container', require('./components/MainContainer.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -35,4 +38,5 @@ const app = new Vue({
     el: '#app',
     router: new VueRouter(routes),
     vuetify: new Vuetify(),
+    store: new Vuex.Store(store),
 });

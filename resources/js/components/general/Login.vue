@@ -4,7 +4,7 @@
             Login
         </v-card-title>
         <v-card-text>
-            <v-form>
+            <v-form @submit.prevent="login">
                 <v-container>
                     <v-row
                         align="center"
@@ -41,6 +41,7 @@
                         <v-btn
                             depressed
                             color="primary"
+                            type="submit"
                         >
                             Submit
                         </v-btn>
@@ -63,7 +64,17 @@ export default {
     },
     methods: {
         login() {
-
+            axios.get('/sanctum/csrf-cookie').then(response => {
+                axios.post('login', this.form)
+                .then(response => {
+                    if(this.$route.name != 'Dashboard') {
+                        this.$router.push({name: 'Dashboard'});
+                    }
+                })
+                .catch(error => {
+                    console.log("Front End Unauthenticated");
+                });
+            });
         }
     }
 }

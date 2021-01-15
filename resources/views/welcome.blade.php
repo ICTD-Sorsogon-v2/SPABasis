@@ -21,7 +21,7 @@
     </head>
     <body>
         <main id="app">
-            <welcome-component></welcome-component>
+            <main-container></main-container>
         </main>
     </body>
 </html>
