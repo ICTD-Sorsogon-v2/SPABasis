@@ -1,5 +1,6 @@
 import user from './modules/user';
 export default {
+    strict: true,
     modules: {
         user
     },
