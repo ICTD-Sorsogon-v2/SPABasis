@@ -25,13 +25,6 @@ export default {
                     path: '',
                     redirect: { name: 'Login' },
                     component: GeneralContainer,
-                    beforeEnter: (to, from, next) => {
-                        axios.get('/api/authenticated').then((response) => {
-                            next({name: 'Dashboard' })
-                        }).catch(() => {
-                            return next()
-                        });
-                    },
                     children: [
                         {
                             path: 'login',
