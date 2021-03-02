@@ -10,7 +10,7 @@ class LoginController extends Controller
 {
     public function login(Request $request)
     {
-        $request->validate([
+        $validated = $request->validated([
             'username' => 'required',
             'password' => 'required'
         ]);
@@ -19,10 +19,10 @@ class LoginController extends Controller
             return response()->json(Auth::user(), 200);
         }
 
-        throw ValidationException::withMessages([
-            'username' => ['The provided credentials are incorrect'],
-            'password' => ['The provided credentials are incorrect']
-        ]);
+        // throw ValidationException::withMessages([
+        //     'username' => ['The provided credentials are incorrect'],
+        //     'password' => ['The provided credentials are incorrect']
+        // ]);
     }
 
     public function logout()

@@ -4,6 +4,19 @@
             Login
         </v-card-title>
         <v-card-text>
+            <div >
+                <!-- <v-alert
+                    v-model="alert"
+                    border="left"
+                    close-text="Close Alert"
+                    color="deep-purple accent-4"
+                    dark
+                    dismissible
+                    >
+                    <v-list  :v-for="value in validationErrors">{{ value  }}</v-list>
+                </v-alert> -->
+                <validation-errors v-if="validationError" :alert='alert'  :errors='validationError' ></validation-errors>
+            </div>
             <v-form @submit.prevent="login">
                 <v-container>
                     <v-row
@@ -31,6 +44,7 @@
                             v-model="form.password"
                             label="Password"
                             required
+                            type="password"
                         ></v-text-field>
                         </v-col>
                     </v-row>
@@ -53,9 +67,15 @@
 </template>
 
 <script>
+import ValidationErrors from '../validation/ValidationErrors';
 export default {
+    components: {
+        ValidationErrors
+    },
     data() {
         return {
+            alert : false,
+            validationError: '',
             form: {
                 username: null,
                 password: null,
@@ -63,6 +83,9 @@ export default {
         }
     },
     methods: {
+        closeModal(){
+            this.alert = false;
+        },
         login() {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('login', this.form)
@@ -72,7 +95,8 @@ export default {
                     }
                 })
                 .catch(error => {
-                    console.log("Front End Unauthenticated");
+                    this.alert = true ;
+                    this.validationError = Object.values(error.response.data.errors).flat();
                 });
             });
         }
