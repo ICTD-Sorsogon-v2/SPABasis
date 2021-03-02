@@ -5,13 +5,14 @@
         </v-card-title>
         <v-card-text>
             <div >
-                <validation-errors v-if="validationError" :alert='alert'  :errors='validationError' ></validation-errors>
+                <validation-errors v-if="validationError"  :errors='validationError' ></validation-errors>
             </div>
-            <v-form @submit.prevent="login">
+            <v-form ref="form" @submit.prevent="login">
                 <v-container>
                     <v-row
                         align="center"
                         justify="space-around"
+                        ref="form"
                     >
                         <v-col
                             cols="6"
@@ -19,6 +20,7 @@
                         <v-text-field
                             v-model="form.username"
                             label="Username"
+                            :rules="form.usernameRules"
                             required
                         ></v-text-field>
                         </v-col>
@@ -32,6 +34,7 @@
                         >
                         <v-text-field
                             v-model="form.password"
+                            :rules="form.passwordlRules"
                             label="Password"
                             required
                             type="password"
@@ -64,12 +67,18 @@ export default {
     },
     data() {
         return {
-            alert : false,
             validationError: '',
             form: {
-                username: null,
+                username: '',
+                usernameRules: [
+                v => !!v || 'Username is required',
+                
+                ],
                 password: null,
-            }
+                passwordlRules: [
+                    v => !!v || 'Password is required',
+                ],
+            },
         }
     },
     methods: {

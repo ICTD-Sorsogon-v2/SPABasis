@@ -7,6 +7,6 @@
 </template>
 <script>
 export default {
-    props: ['errors', 'alert'],
+    props: ['errors'],
 }
 </script>
