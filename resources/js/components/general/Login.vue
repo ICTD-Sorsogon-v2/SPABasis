@@ -117,6 +117,7 @@ export default {
                 axios.post('login', { username: this.username, password: this.password })
                 .then(response => {
                     if(this.$route.name != 'Dashboard') {
+                        this.$v.$reset();
                         this.username = this.password = this.error_bag  = this.message = null;
                         this.$router.push({name: 'Dashboard'});
                     }
