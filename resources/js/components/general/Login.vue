@@ -43,8 +43,11 @@
                             label="Password"
                             required
                             :error-messages="passwordError"
+                            :append-icon="show_password ? 'mdi-eye' : 'mdi-eye-off'"
+                            :type="show_password ? 'text' : 'password'"
                             @input="$v.password.$touch()"
                             @blur="$v.password.$touch()"
+                            @click:append="show_password = !show_password"
                         ></v-text-field>
                         </v-col>
                     </v-row>
@@ -80,6 +83,7 @@ export default {
             login_failed: false,
             error_bag: null,
             message: null,
+            show_password: false
         }
     },
     computed: {
