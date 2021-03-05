@@ -13,57 +13,53 @@
                 @dismiss_alert="dismissAlert"
             />
             <v-form @submit.prevent="login">
-                <v-container>
-                    <v-row
-                        align="center"
-                        justify="space-around"
+                <v-row
+                    align="center"
+                    justify="space-around"
+                >
+                    <v-col
+                        cols="6"
                     >
-                        <v-col
-                            cols="6"
-                        >
-                        <v-text-field
-                            v-model="username"
-                            label="Username"
-                            required
-                            :error-messages="usernameErrors"
-                            @input="$v.username.$touch()"
-                            @blur="$v.username.$touch()"
-                        ></v-text-field>
-                        </v-col>
-                    </v-row>
-                    <v-row
-                        align="center"
-                        justify="space-around"
+                    <v-text-field
+                        v-model="username"
+                        label="Username"
+                        required
+                        :error-messages="usernameErrors"
+                        @input="$v.username.$touch()"
+                        @blur="$v.username.$touch()"
+                    ></v-text-field>
+                    </v-col>
+                </v-row>
+                <v-row
+                    align="center"
+                    justify="space-around"
+                >
+                    <v-col cols="6">
+                    <v-text-field
+                        v-model="password"
+                        label="Password"
+                        required
+                        :error-messages="passwordError"
+                        :append-icon="show_password ? 'mdi-eye' : 'mdi-eye-off'"
+                        :type="show_password ? 'text' : 'password'"
+                        @input="$v.password.$touch()"
+                        @blur="$v.password.$touch()"
+                        @click:append="show_password = !show_password"
+                    ></v-text-field>
+                    </v-col>
+                </v-row>
+                <v-row
+                    align="center"
+                    justify="space-around"
+                >
+                    <v-btn
+                        depressed
+                        color="primary"
+                        type="submit"
                     >
-                        <v-col
-                            cols="6"
-                        >
-                        <v-text-field
-                            v-model="password"
-                            label="Password"
-                            required
-                            :error-messages="passwordError"
-                            :append-icon="show_password ? 'mdi-eye' : 'mdi-eye-off'"
-                            :type="show_password ? 'text' : 'password'"
-                            @input="$v.password.$touch()"
-                            @blur="$v.password.$touch()"
-                            @click:append="show_password = !show_password"
-                        ></v-text-field>
-                        </v-col>
-                    </v-row>
-                    <v-row
-                        align="center"
-                        justify="space-around"
-                    >
-                        <v-btn
-                            depressed
-                            color="primary"
-                            type="submit"
-                        >
-                            Submit
-                        </v-btn>
-                    </v-row>
-                </v-container>
+                        Submit
+                    </v-btn>
+                </v-row>
             </v-form>
         </v-card-text>
     </v-card>

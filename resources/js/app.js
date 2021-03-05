@@ -37,6 +37,17 @@ Vue.component('main-container', require('./components/MainContainer.vue').defaul
 const app = new Vue({
     el: '#app',
     router: new VueRouter(routes),
-    vuetify: new Vuetify(),
+    vuetify: new Vuetify({
+        theme: {
+            themes: {
+              light: {
+                primary: '#4abdac',
+                secondary: '#99ced4',
+                accent: '#ee86b7',
+                error: '#6e7376',
+              },
+            },
+          },
+    }),
     store: new Vuex.Store(store),
 });
