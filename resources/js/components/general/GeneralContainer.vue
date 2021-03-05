@@ -1,72 +1,94 @@
 <template>
-    <v-app id="inspire">
+    <v-app>
         <v-app-bar
             app
-            color="white"
+            color="primary"
+            dark
             flat
         >
-        <v-container class="py-0 fill-height">
-            <v-toolbar-title>Sample SPA</v-toolbar-title>
+              <v-img
+                class="mx-2"
+                src="storage/images/TPLINK_Logo_2.svg.png"
+                max-height="120px"
+                max-width="120px"
+                contain
+            />
             <v-spacer></v-spacer>
-        </v-container>
-        </v-app-bar>
-
-        <v-main class="grey lighten-3">
-        <v-container>
-            <v-row>
-            <v-col cols="2">
-                <v-sheet rounded="lg">
-                <v-list color="transparent">
-                    <v-list-item
-                        link
-                        color="grey lighten-4"
-                        @click.prevent="loginPage"
+            <v-menu offset-y>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                        plain
+                        icon
+                        v-bind="attrs"
+                        v-on="on"
+                        class="d-flex d-sm-none"
                     >
-                    <v-list-item-content>
-                        <v-list-item-title>
-                            Login
-                        </v-list-item-title>
-                    </v-list-item-content>
-                    </v-list-item>
-
+                    <v-icon>mdi-dots-vertical</v-icon>
+                    </v-btn>
+                </template>
+                <v-list>
                     <v-list-item
-                        link
-                        color="grey lighten-4"
-                        @click.prevent="changelogsPage"
-                    >
-                    <v-list-item-content>
-                        <v-list-item-title>
-                            Changelogs
-                        </v-list-item-title>
-                    </v-list-item-content>
-                    </v-list-item>
-
-                    <v-list-item
-                        link
-                        color="grey lighten-4"
                         @click.prevent="aboutPage"
                     >
-                    <v-list-item-content>
+                        <v-icon left>mdi-information-outline</v-icon>
                         <v-list-item-title>
                             About
                         </v-list-item-title>
-                    </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item
+                        @click.prevent="changelogsPage"
+                    >
+                        <v-list-item-title>
+                            <v-icon left>mdi-format-list-text</v-icon>
+                            Changelogs
+                        </v-list-item-title>
+                    </v-list-item>
+                    <v-list-item
+                        @click.prevent="loginPage"
+                    >
+                        <v-list-item-title>
+                            <v-icon left>mdi-login-variant</v-icon>
+                            Login
+                        </v-list-item-title>
                     </v-list-item>
                 </v-list>
-                </v-sheet>
-            </v-col>
-
-            <v-col>
-
-                <v-sheet
-                    min-height="70vh"
-                    rounded="lg"
-                >
-                    <router-view></router-view>
-                </v-sheet>
-            </v-col>
-            </v-row>
-        </v-container>
+            </v-menu>
+            <v-btn
+                plain
+                dark
+                @click.prevent="aboutPage"
+                class="d-none d-sm-flex"
+            >
+                <v-icon left>mdi-information-outline</v-icon>
+                About
+            </v-btn>
+            <v-btn
+                plain
+                dark
+                @click.prevent="changelogsPage"
+                class="d-none d-sm-flex"
+            >
+                <v-icon left>mdi-format-list-text</v-icon>
+                Changelogs
+            </v-btn>
+            <v-btn
+                plain
+                dark
+                @click.prevent="loginPage"
+                class="d-none d-sm-flex"
+            >
+                <v-icon left>mdi-login-variant</v-icon>
+                Login
+            </v-btn>
+        </v-app-bar>
+        <v-main>
+            <v-container>
+                <v-row>
+                    <v-col>
+                        <router-view></router-view>
+                    </v-col>
+                </v-row>
+            </v-container>
         </v-main>
     </v-app>
 </template>

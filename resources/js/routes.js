@@ -1,13 +1,12 @@
-
-import MainContainer from './components/MainContainer';
-import NotFound from './components/NotFound'
-import Login from './components/general/Login';
-import Changelogs from './components/general/Changelogs';
-import About from './components/general/About';
-import GeneralContainer from './components/general/GeneralContainer';
-import AuthContainer from './components/auth/AuthContainer';
-import Dashboard from './components/auth/Dashboard';
-import User from './components/auth/User'
+const MainContainer = () => import('./components/MainContainer');
+const NotFound = () => import('./components/NotFound');
+const Login = () => import('./components/general/Login');
+const Changelogs = () => import('./components/general/Changelogs');
+const About = () => import('./components/general/About');
+const GeneralContainer = () => import('./components/general/GeneralContainer');
+const AuthContainer = () => import('./components/auth/AuthContainer');
+const Dashboard = () => import('./components/auth/Dashboard');
+const User = () => import('./components/auth/User');
 export default {
     base: '/',
     mode: 'history',
