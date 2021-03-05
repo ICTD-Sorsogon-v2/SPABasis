@@ -1,7 +1,7 @@
 <template>
     <v-card flat>
         <v-card-title primary-title>
-            Changelogs
+            <h1>Changelogs</h1>
         </v-card-title>
         <v-card-text>
              <v-container>
@@ -13,8 +13,5 @@
 
 <script>
     export default {
-        mounted() {
-            console.log('Component mounted.')
-        }
     }
 </script>
