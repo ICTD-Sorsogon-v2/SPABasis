@@ -97,10 +97,10 @@ export default {
     }
   },
   computed: {
-    repeatPasswordErrors () {
+    password_confirmationErrors () {
       const errors = []
-      if (!this.$v.repeatPassword.$dirty) return errors
-      !this.$v.repeatPassword.sameAsPassword && errors.push('Password mismatch')
+      if (!this.$v.password_confirmation.$dirty) return errors
+      !this.$v.password_confirmation.sameAsPassword && errors.push('Password mismatch')
       return errors
     },
     nameErrors () {
