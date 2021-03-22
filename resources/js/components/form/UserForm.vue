@@ -46,13 +46,13 @@
         />
         </v-col><v-col cols="6">
           <v-text-field
-            v-model="repeatPassword"
-            :error-messages="repeatPasswordErrors"
+            v-model="password_confirmation"
+            :error-messages="password_confirmationErrors"
             label="Confirm Password"
             required
             type="password"
-            @input="$v.repeatPassword.$touch()"
-            @blur="$v.repeatPassword.$touch()"
+            @input="$v.password_confirmation.$touch()"
+            @blur="$v.password_confirmation.$touch()"
         />
         </v-col>
         <v-col cols="12">
@@ -77,7 +77,7 @@ export default {
     name: { required, maxLength: maxLength(10) },
     username: { required,  },
     password: { required, minLength: minLength(6)},
-    repeatPassword : { sameAsPassword: sameAs('password') }
+    password_confirmation : { sameAsPassword: sameAs('password') }
   },
   components: {
     AlertComponent
@@ -88,7 +88,7 @@ export default {
         name : '',
         username : '',
         password: '',
-        repeatPassword: '',
+        password_confirmation: '',
         error_bag: '',
         message: '',
         updateOrCreate : false,
@@ -139,7 +139,8 @@ export default {
             {
               name : this.name,
               username: this.username,
-              password: this.password 
+              password: this.password,
+              password_confirmation : this.password_confirmation 
             }).then (response => {
               this.updateOrCreate = true;
                 if (response.errors) {

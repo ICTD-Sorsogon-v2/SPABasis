@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
@@ -29,7 +28,7 @@ class UserController extends Controller
 
     public function createOrUpdate(UserPostRequest $request) {
         $user = User::updateOrCreate(
-            ['id' => auth::user()->id],
+            ['id' => auth::user()->id ],
             $request->validated()
         );
         return $user;
