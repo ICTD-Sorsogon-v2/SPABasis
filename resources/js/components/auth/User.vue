@@ -1,5 +1,5 @@
 <template>
-  <user-form :count=10 @setName="setName" :name="name"></user-form>
+  <h1>user</h1>
 </template>
 <script>
 import UserForm from '../form/UserForm';

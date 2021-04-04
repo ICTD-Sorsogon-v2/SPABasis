@@ -25,7 +25,6 @@
                         <v-text-field
                             v-model="username"
                             label="Username"
-                            :rules="form.usernameRules"
                             required
                             :error-messages="usernameErrors"
                             @input="$v.username.$touch()"
@@ -119,6 +118,7 @@ export default {
                 axios.post('login', { username: this.username, password: this.password })
                 .then(response => {
                     if(this.$route.name != 'Dashboard') {
+                        this.$v.$reset();
                         this.username = this.password = this.error_bag  = this.message = null;
                         this.$router.push({name: 'Dashboard'});
                     }
