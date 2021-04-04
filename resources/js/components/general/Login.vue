@@ -4,10 +4,15 @@
             Login
         </v-card-title>
         <v-card-text>
-            <div >
-                <validation-errors v-if="validationError"  :errors='validationError' ></validation-errors>
-            </div>
-            <v-form ref="form" @submit.prevent="login">
+            <alert-component
+                :show="login_failed"
+                :color="'red'"
+                :icon="'mdi-alert'"
+                :message="message"
+                :message_bag="error_bag"
+                @dismiss_alert="dismissAlert"
+            />
+            <v-form @submit.prevent="login">
                 <v-container>
                     <v-row
                         align="center"
@@ -18,10 +23,13 @@
                             cols="6"
                         >
                         <v-text-field
-                            v-model="form.username"
+                            v-model="username"
                             label="Username"
                             :rules="form.usernameRules"
                             required
+                            :error-messages="usernameErrors"
+                            @input="$v.username.$touch()"
+                            @blur="$v.username.$touch()"
                         ></v-text-field>
                         </v-col>
                     </v-row>
@@ -33,11 +41,12 @@
                             cols="6"
                         >
                         <v-text-field
-                            v-model="form.password"
-                            :rules="form.passwordlRules"
+                            v-model="password"
                             label="Password"
                             required
-                            type="password"
+                            :error-messages="passwordError"
+                            @input="$v.password.$touch()"
+                            @blur="$v.password.$touch()"
                         ></v-text-field>
                         </v-col>
                     </v-row>
@@ -60,42 +69,64 @@
 </template>
 
 <script>
-import ValidationErrors from '../validation/ValidationErrors';
+import AlertComponent from '../helpers/AlertComponent.vue'
+const { validationMixin, default: Vuelidate } = require('vuelidate')
+const { required, minLength } = require('vuelidate/lib/validators')
 export default {
-    components: {
-        ValidationErrors
-    },
+    components: { AlertComponent },
+    mixins: [validationMixin],
     data() {
         return {
-            validationError: '',
-            form: {
-                username: '',
-                usernameRules: [
-                v => !!v || 'Username is required',
-                
-                ],
-                password: null,
-                passwordlRules: [
-                    v => !!v || 'Password is required',
-                ],
-            },
+            username: null,
+            password: null,
+            login_failed: false,
+            error_bag: null,
+            message: null,
         }
     },
+    computed: {
+        usernameErrors () {
+            const errors = []
+            if (!this.$v.username.$dirty) return errors
+            !this.$v.username.required && errors.push('Username is required.')
+            return errors
+        },
+        passwordError () {
+            const errors = []
+            if (!this.$v.username.$dirty) return errors
+            !this.$v.password.minLength && errors.push('Password must be at least 6 characters long')
+            !this.$v.password.required && errors.push('Password is required.')
+            return errors
+        },
+    },
+    validations: {
+        username: {
+            required,
+        },
+        password: {
+            required,
+            minLength: minLength(6)
+        },
+    },
     methods: {
-        closeModal(){
-            this.alert = false;
+        dismissAlert() {
+            this.login_failed = false;
         },
         login() {
+            this.login_failed = false, this.error_bag = this.message =null;
+            this.$v.$touch()
             axios.get('/sanctum/csrf-cookie').then(response => {
-                axios.post('login', this.form)
+                axios.post('login', { username: this.username, password: this.password })
                 .then(response => {
                     if(this.$route.name != 'Dashboard') {
+                        this.username = this.password = this.error_bag  = this.message = null;
                         this.$router.push({name: 'Dashboard'});
                     }
                 })
                 .catch(error => {
-                    this.alert = true ;
-                    this.validationError = Object.values(error.response.data.errors).flat();
+                    this.login_failed = true;
+                    this.message = 'Authentication Failed!'
+                    this.error_bag = Object.values(error.response.data.errors).flat();
                 });
             });
         }
