@@ -1,5 +1,6 @@
 <template>
     <v-alert
+        transition="slide-y-transition"
         v-model="show"
         dismissible
         :color="color"
@@ -18,7 +19,7 @@
         </div>
         <template v-slot:close>
             <v-icon @click="$emit('dismiss_alert')" >mdi-close</v-icon>
-      </template>
+        </template>
     </v-alert>
 </template>
 
