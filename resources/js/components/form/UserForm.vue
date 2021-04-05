@@ -4,6 +4,16 @@
       <v-row
       align="center"
       justify="space-around">
+        <v-col cols="12">
+          <alert-component
+          :show="updateOrCreate"
+          :color="color"
+          :icon="icon"
+          :message="message"
+          :message_bag="error_bag"
+          @dismiss_alert="dismissAlert"
+        />
+        </v-col>
         <v-col cols="6">
           <v-text-field
             v-model="name"
@@ -60,13 +70,17 @@
 <script>
 const { validationMixin, default: Vuelidate } = require('vuelidate')
 const { required, maxLength, sameAs, minLength } = require('vuelidate/lib/validators')
+import AlertComponent from '../helpers/AlertComponent'
 export default {
   mixins: [validationMixin],
   validations: {
     name: { required, maxLength: maxLength(10) },
     username: { required,  },
-    password: { required, minLength: minLength(4)},
+    password: { required, minLength: minLength(6)},
     repeatPassword : { sameAsPassword: sameAs('password') }
+  },
+  components: {
+    AlertComponent
   },
   data() {
       return {
@@ -74,7 +88,12 @@ export default {
         name : '',
         username : '',
         password: '',
-        repeatPassword: ''
+        repeatPassword: '',
+        error_bag: '',
+        message: '',
+        updateOrCreate : false,
+        icon: 'red',
+        color: 'mid-alert'
     }
   },
   computed: {
@@ -105,19 +124,39 @@ export default {
     }
 },
     methods: {
+      dismissAlert() {
+        this.updateOrCreate = false;
+      },
       submit () {
-        // this.$v.$touch()
-        // if (this.$v.$invalid) {
-        //   this.submitStatus = 'ERROR'
-        // } else {
+        this.$v.$touch()
+        if (this.$v.$invalid) {
+          this.submitStatus = 'ERROR'
+        } else {
           // do your submit logic here
-          // this.submitStatus = 'PENDING'
-          // setTimeout(() => {
-            this.$store.dispatch('createOrUpdate', {name : this.name , username: this.username }).then(() => {
-                console.log('success');
-              });
-          //   this.submitStatus = 'OK'
-          // }, 500);
+          this.submitStatus = 'PENDING'
+          setTimeout(() => {
+            this.$store.dispatch('createOrUpdate',
+            {
+              name : this.name,
+              username: this.username,
+              password: this.password 
+            }).then (response => {
+              this.updateOrCreate = true;
+                if (response.errors) {
+                  this.message = 'Profile Update Failed!'
+                  this.error_bag = Object.values(response.errors).flat();
+                  this.icon = 'mdi-alert';
+                  this.color = 'red';
+                } else {
+                  this.color = 'green';
+                  this.icon = 'mdi-check-circle';
+                  this.message = 'Profile Update Success!';
+                  this.error_bag = ['Change has been saved to your profile'];
+                }
+            })
+            this.submitStatus = 'OK'
+          }, 500);
+          console.log(this.$store.state.user.auth_user)
         }
       },
       clear () {

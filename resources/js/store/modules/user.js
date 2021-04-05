@@ -31,14 +31,19 @@ const actions = {
         });
     },
     async createOrUpdate({ dispatch } , user) {
-        const response = await axios.post(`/api/create_update/'${user.id ?? ''}`, user)
+        const response = await axios.post(`/api/create_update/`, user)
         .then( response => {
             let res = {
                 status : 'success',
             }
             // commit('SET_AUTH_USER', response.data);
-            dispatch('getAuthUser')
+            dispatch('getAuthUser');
+            return response.data;
         })
+        .catch(error => {
+            return error.response.data;
+        });
+        return response;
     },
 };
 

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
-
+use App\Http\Requests\UserPostRequest;
 class UserController extends Controller
 {
     public function __construct()
@@ -27,11 +27,12 @@ class UserController extends Controller
         return User::all();
     }
 
-    public function createOrUpdate(Request $request) {
+    public function createOrUpdate(UserPostRequest $request) {
         $user = User::updateOrCreate(
             ['id' => auth::user()->id],
-            ['name' => $request->name, 'username' => $request->username]
+            $request->validated()
         );
+        return $user;
     }
 
 }
