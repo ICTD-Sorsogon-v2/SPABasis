@@ -30,6 +30,7 @@
             :error-messages="passwordErrors"
             label="Password"
             required
+            type="password"
             @input="$v.password.$touch()"
             @blur="$v.password.$touch()"
         />
@@ -39,11 +40,12 @@
             :error-messages="repeatPasswordErrors"
             label="Confirm Password"
             required
+            type="password"
             @input="$v.repeatPassword.$touch()"
             @blur="$v.repeatPassword.$touch()"
         />
         </v-col>
-        <v-col cols="12" v-show="!this.$v.repeatPassword.$invalid && !this.$v.password.$invalid">
+        <v-col cols="12">
           <v-btn
             class="mr-4"
             @click="submit"
@@ -57,17 +59,18 @@
 </template>
 <script>
 const { validationMixin, default: Vuelidate } = require('vuelidate')
-const { required, maxLength, sameAs } = require('vuelidate/lib/validators')
+const { required, maxLength, sameAs, minLength } = require('vuelidate/lib/validators')
 export default {
   mixins: [validationMixin],
   validations: {
     name: { required, maxLength: maxLength(10) },
     username: { required,  },
-    password: { required, maxLength: maxLength(10)},
+    password: { required, minLength: minLength(4)},
     repeatPassword : { sameAsPassword: sameAs('password') }
   },
   data() {
       return {
+        submitStatus: null,
         name : '',
         username : '',
         password: '',
@@ -96,15 +99,26 @@ export default {
     passwordErrors(){
       const errors = []
       if (!this.$v.password.$dirty) return errors
+      !this.$v.password.minLength && errors.push('Password must be minimum of 6 characters long')
       !this.$v.password.required && errors.push('Password is required.')
       return errors
     }
 },
     methods: {
       submit () {
-        this.$store.dispatch('createOrUpdate', {name : this.name , username: this.username }).then(() => {
-              console.log('success');
-            });
+        // this.$v.$touch()
+        // if (this.$v.$invalid) {
+        //   this.submitStatus = 'ERROR'
+        // } else {
+          // do your submit logic here
+          // this.submitStatus = 'PENDING'
+          // setTimeout(() => {
+            this.$store.dispatch('createOrUpdate', {name : this.name , username: this.username }).then(() => {
+                console.log('success');
+              });
+          //   this.submitStatus = 'OK'
+          // }, 500);
+        }
       },
       clear () {
         this.$v.$reset()
