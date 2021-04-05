@@ -27,4 +27,12 @@ class UserController extends Controller
         return User::all();
     }
 
+    public function createOrUpdate(Request $request) {
+        dd($request);
+        $user = User::updateOrCreate(
+            ['id' => auth::user()->id],
+            ['name' => $request->name, 'username' => $request->username]
+        );
+    }
+
 }

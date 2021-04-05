@@ -18,6 +18,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('auth_user', 'UserController@getAuthUser');
         Route::get('all_users', 'UserController@getAllUsers');
+
+        Route::post('create_update/{user?}', 'UserController@createOrUpdate');
     // });
     Route::get('authenticated', function() {
         return true;

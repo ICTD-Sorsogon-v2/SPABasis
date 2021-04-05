@@ -29,7 +29,17 @@ const actions = {
             });
             commit('FETCH_ALL_USERS', response.data);
         });
-    }
+    },
+    async createOrUpdate({ dispatch } , user) {
+        const response = await axios.post(`/api/create_update/'${user.id ?? ''}`, user)
+        .then( response => {
+            let res = {
+                status : 'success',
+            }
+            // commit('SET_AUTH_USER', response.data);
+            dispatch('getAuthUser')
+        })
+    },
 };
 
 const mutations = {

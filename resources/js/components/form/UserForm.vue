@@ -102,7 +102,9 @@ export default {
 },
     methods: {
       submit () {
-       
+        this.$store.dispatch('createOrUpdate', {name : this.name , username: this.username }).then(() => {
+              console.log('success');
+            });
       },
       clear () {
         this.$v.$reset()
