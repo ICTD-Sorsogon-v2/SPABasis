@@ -27,4 +27,9 @@ class UserController extends Controller
         return User::all();
     }
 
+    public function fetchAuthUser(Request $request)
+    {
+        return $request->user();
+    }
+
 }

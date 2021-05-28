@@ -1,5 +1,5 @@
 <template>
-    <v-content>
+    <v-main>
         <v-container fluid fill-height>
             <v-layout align-center justify-center>
                 <v-flex xs12 sm8 md7 lg7 xl9>
@@ -86,7 +86,7 @@
                 </v-flex>
             </v-layout>
         </v-container>
-    </v-content>
+    </v-main>
 </template>
 
 <script>
@@ -130,21 +130,25 @@ export default {
             minLength: minLength(6)
         },
     },
+    created(){
+        
+    },
     methods: {
         dismissAlert() {
             this.login_failed = false;
         },
-        login() {
+        async login() {
             this.login_failed = false, this.error_bag = this.message =null;
             this.$v.$touch()
-            axios.get('/sanctum/csrf-cookie').then(response => {
+            await axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('login', { username: this.username, password: this.password })
                 .then(response => {
-                    if(this.$route.name != 'Dashboard') {
                         this.$v.$reset();
                         this.username = this.password = this.error_bag  = this.message = null;
-                        this.$router.push({name: 'Dashboard'});
-                    }
+                        this.$store.dispatch('login').then(() => {
+                            // Call this after the dispatch to ensure that the states have been hydrated
+                            this.$router.push({ name: "Dashboard" });
+                        });
                 })
                 .catch(error => {
                     this.login_failed = true;

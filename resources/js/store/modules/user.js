@@ -3,6 +3,8 @@ import axios from 'axios';
 const state = {
     auth_user: {},
     all_users: [],
+    user: null,
+    authenticated: false,
 };
 
 const getters = {
@@ -29,7 +31,7 @@ const actions = {
             });
             commit('FETCH_ALL_USERS', response.data);
         });
-    }
+    },
 };
 
 const mutations = {
@@ -38,7 +40,7 @@ const mutations = {
     },
     FETCH_ALL_USERS: (state, users) => {
         state.all_users = users;
-    }
+    },
 };
 
 export default {
