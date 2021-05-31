@@ -78,8 +78,8 @@ export default {
         selectedItem: 0,
         items: [
             { text: 'Dashboard', icon: 'mdi-desktop-mac-dashboard', link: 'dashboard'},
-            { text: 'Shared with me', icon: 'mdi-account-multiple', link: 'user' },
-            { text: 'Starred', icon: 'mdi-star', link: 'starred' },
+            { text: 'Roles', icon: 'mdi-account-multiple', link: 'user' },
+            { text: 'Permissions', icon: 'mdi-star', link: 'starred' },
             { text: 'Recent', icon: 'mdi-history', link: 'recent' },
             { text: 'Offline', icon: 'mdi-check-circle', link: 'offline' },
             { text: 'Uploads', icon: 'mdi-upload', link: 'uploads' },
